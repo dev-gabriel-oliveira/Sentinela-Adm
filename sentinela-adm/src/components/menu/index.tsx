@@ -1,7 +1,11 @@
 import { Link, NavLink } from 'react-router-dom';
+import { useAuth } from "../../contexts/useAuth";
+
 import './style.css';
 
 export default function Menu() {
+    const { logout } = useAuth();
+
     return(
         <menu>
             <ul>
@@ -34,7 +38,7 @@ export default function Menu() {
                         <NavLink to={"/historico"}>Histórico</NavLink>
                     </li>
                     <li>
-                        <NavLink to={"/"}>Sair</NavLink>
+                        <NavLink to={"/"} onClick={() => {logout()}}>Sair</NavLink>
                     </li>
                 </ul>
             </div>

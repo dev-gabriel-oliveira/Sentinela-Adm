@@ -1,4 +1,4 @@
-html, body, #root, main{
+html, body, #root{
   height: 100%;
   width: 100%;
   margin: 0;
@@ -27,7 +27,7 @@ html {
     & button{
       display: flex;
       align-items: center;
-      border-radius: 2rem;
+      border-radius: 0.5rem;
       padding: 0.2rem 1rem;
       margin: 0.5rem;
       font-size: 1.5rem;
