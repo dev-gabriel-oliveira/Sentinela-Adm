@@ -27,10 +27,6 @@ html {
     & button{
       display: flex;
       align-items: center;
-      border-radius: 0.5rem;
-      padding: 0.2rem 1rem;
-      margin: 0.5rem;
-      font-size: 1.5rem;
       transition: 0.25s;
 
       &:hover{
@@ -47,14 +43,6 @@ html {
       @media (min-width:802px) {
        font-size: 2rem;
       }
-    }
-
-    & input{
-      background-color: hsl(0, 0%, 100%);
-      border-color: hsl(0, 0%, 80%);
-      border-radius: 4px;
-      border-style: solid;
-      border-width: 1px;
     }
 
     @media (max-width:620px) {

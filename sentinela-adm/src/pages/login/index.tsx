@@ -31,7 +31,8 @@ export default function Login() {
     
     return(
         <div className='pt-5'>
-            <h1 className='text-center'>Login</h1>
+            <h1 className='text-center m-0 pt-4'>Sentinela</h1>
+            <p className='text-center m-0'>Área do Administrador</p>
 
             <div className="d-flex justify-content-center">
                 <form onSubmit={handleSubmit}>

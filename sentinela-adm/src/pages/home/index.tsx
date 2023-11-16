@@ -77,11 +77,9 @@ export default function Home() {
     
     return(
         <>
-            <h1>Olá, administrador!</h1>
+            <h1>Estatísticas</h1>
 
             <hr />
-
-            <h2>Dashboard</h2>
 
             <div className="d-flex align-items-center flex-wrap ">
                 <PieChart width={400} height={400}>
