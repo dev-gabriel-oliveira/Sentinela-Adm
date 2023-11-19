@@ -2,111 +2,158 @@ import 'react';
 import { PieChart, Pie, BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 import './style.css';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/useAuth';
+import { Complaint } from '../complaints/rowData';
 
 export default function Home() {
-    const data01 = [
-        { name: 'Group A', value: 400 },
-        { name: 'Group B', value: 300 },
-        { name: 'Group C', value: 300 },
-        { name: 'Group D', value: 200 },
-      ];
-      const data02 = [
-        { name: 'A1', value: 100 },
-        { name: 'A2', value: 300 },
-        { name: 'B1', value: 100 },
-        { name: 'B2', value: 80 },
-        { name: 'B3', value: 40 },
-        { name: 'B4', value: 30 },
-        { name: 'B5', value: 50 },
-        { name: 'C1', value: 100 },
-        { name: 'C2', value: 200 },
-        { name: 'D1', value: 150 },
-        { name: 'D2', value: 50 },
-      ];
+  const { getApi } = useAuth();
+  const api = getApi();
 
-      const data03 = [
-        {
-          name: 'Page A',
-          uv: 4000,
-          pv: 2400,
-          amt: 2400,
-        },
-        {
-          name: 'Page B',
-          uv: 3000,
-          pv: 1398,
-          amt: 2210,
-        },
-        {
-          name: 'Page C',
-          uv: 2000,
-          pv: 9800,
-          amt: 2290,
-        },
-        {
-          name: 'Page D',
-          uv: 2780,
-          pv: 3908,
-          amt: 2000,
-        },
-        {
-          name: 'Page E',
-          uv: 1890,
-          pv: 4800,
-          amt: 2181,
-        },
-        {
-          name: 'Page F',
-          uv: 2390,
-          pv: 3800,
-          amt: 2500,
-        },
-        {
-          name: 'Page G',
-          uv: 3490,
-          pv: 4300,
-          amt: 2100,
-        },
-      ];
-    
-    useEffect(() => {
-      console.log(22222222222);
-      
+  const [complaintsData, setComplaintsData] = useState<[] | null>(null);
+  const [complaintsPartials, setComplaintsPartials] = useState<any | null>(null);
+
+  const [organsData, setOrgansData] = useState<[] | null>(null);
+
+  const getComplaintsData = () => {
+    api?.get(`/api/complaint`)
+    .then((response) => {
+        console.log(response);
+
+        setComplaintsData(response.data);
+
+        const statusTotals = response.data.reduce((totals: any, item: any) => {
+          const { status } = item;
+          // Inicializa o total para o status se ainda não existir
+          totals[status] = (totals[status] || 0) + 1;
+          return totals;
+        }, {});
+        
+        // Cria um array com os totais formatados
+        const result = {
+          enviado: statusTotals['enviado'] || 0,
+          em_analise: statusTotals['em analise'] || 0,
+          negado: statusTotals['negado'] || 0,
+          resolvido: statusTotals['resolvido'] || 0
+        };
+
+        setComplaintsPartials(result);
     })
+    .catch((error) => {
+        console.error(error);
+    })
+  }
+
+  const getOrgansData = () => {
+    api?.get(`/api/organ`)
+    .then((response) => {
+        console.log(response);
+        setOrgansData(response.data);
+    })
+    .catch((error) => {
+        console.error(error);
+    })
+  }
+
+  useEffect(() => {
+    getComplaintsData();
+    getOrgansData()
+  },[])
+
+  useEffect(() => {
+
+    complaintsPartials ? console.log(complaintsPartials) : null;
     
-    return(
-        <>
-            <h1>Estatísticas</h1>
+  })
 
-            <hr />
+  return(
+    <>
+      <h1>Estatísticas</h1>
 
-            <div className="d-flex align-items-center flex-wrap ">
-                <PieChart width={400} height={400}>
-                    <Pie data={data01} dataKey="value" cx="50%" cy="50%" outerRadius={60} fill="#8884d8" />
-                    <Pie data={data02} dataKey="value" cx="50%" cy="50%" innerRadius={70} outerRadius={90} fill="#82ca9d" label />
-                </PieChart>
+      <hr />
 
-                <BarChart
-                    width={400}
-                    height={300}
-                    data={data03}
-                    margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                    }}
-                    >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-                    <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-                </BarChart>
-            </div>
-        </>
-    )
+      <div className="d-flex justify-content-between align-items-top flex-wrap ">
+        <div className='numeros-totais'>
+          <p className='fs-2'>Números Totais</p>
+          <hr />
+
+          <div className="d-flex justify-content-between align-items-center border border-secondary rounded my-3 p-2">
+            <h4>Denúncias</h4>
+            {complaintsData ? (
+              <h2 className='text-success ms-5'>{complaintsData?.length}</h2>
+            ):(
+              <div className="spinner-border text-success ms-5" role="status">
+                <span className="visually-hidden"></span>
+              </div>
+            )}
+          </div>
+
+          <div className="d-flex justify-content-between align-items-center border border-secondary rounded my-3 p-2">
+            <h4>Orgãos</h4>
+            {organsData ? (
+              <h2 className='text-success ms-5'>{organsData?.length}</h2>
+            ):(
+              <div className="spinner-border text-success ms-5" role="status">
+                <span className="visually-hidden"></span>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        <div className='casos-inconclusos'>
+          <p className='fs-2'>Casos Inconclusos</p>
+          <hr />
+
+          <div className="d-flex justify-content-between align-items-center border border-secondary rounded my-3 p-2">
+            <h4>Enviados</h4>
+            {complaintsPartials ? (
+              <h2 className='text-success ms-5'>{complaintsPartials?.enviado}</h2>
+            ):(
+              <div className="spinner-border text-success ms-5" role="status">
+                <span className="visually-hidden"></span>
+              </div>
+            )}
+          </div>
+
+          <div className="d-flex justify-content-between align-items-center border border-secondary rounded my-3 p-2">
+            <h4>Em Análise</h4>
+            {complaintsPartials ? (
+              <h2 className='text-success ms-5'>{complaintsPartials?.em_analise}</h2>
+            ):(
+              <div className="spinner-border text-success ms-5" role="status">
+                <span className="visually-hidden"></span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className='graficos'>
+          <p className='fs-2'>Casos Concluidos</p>
+          <hr />
+
+          <div className="d-flex justify-content-between align-items-center border border-secondary rounded my-3 p-2">
+            <h4>Negados</h4>
+            {complaintsPartials ? (
+              <h2 className='text-success ms-5'>{complaintsPartials?.negado}</h2>
+            ):(
+              <div className="spinner-border text-success ms-5" role="status">
+                <span className="visually-hidden"></span>
+              </div>
+            )}
+          </div>
+
+          <div className="d-flex justify-content-between align-items-center border border-secondary rounded my-3 p-2">
+            <h4>Resolvidos</h4>
+            {complaintsPartials ? (
+              <h2 className='text-success ms-5'>{complaintsPartials?.resolvido}</h2>
+            ):(
+              <div className="spinner-border text-success ms-5" role="status">
+                <span className="visually-hidden"></span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }

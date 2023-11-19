@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/useAuth';
 import Login from '../pages/login';
 import Home from '../pages/home';
 import Complaints from '../pages/complaints';
+import Organs from '../pages/organs';
 import NotFounded from '../pages/not-founded';
 
 interface RouteProps{
@@ -37,6 +38,7 @@ export default function AppRoutes() {
 
                 <Route path='/home' element={<Private Component={Home}/>}/>
                 <Route path='/complaints' element={<Private Component={Complaints}/>}/>
+                <Route path='/organs' element={<Private Component={Organs}/>}/>
                 <Route path='*' element={<Private Component={NotFounded}/>}/>
             </Routes>
         </main>

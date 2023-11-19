@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/useAuth';
 
 import './style.css';
+import axios from 'axios';
+import { API_BASE_URL } from '../../global/API_BASE_URL';
 
 export default function Login() {
     const { login } = useAuth();
@@ -12,21 +14,33 @@ export default function Login() {
     const emailInput = useRef<HTMLInputElement | null>(null);
     const password = useRef<HTMLInputElement | null>(null);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (emailInput.current && emailInput.current.value !== 'user@mail.com') {
-            alert('errou o ususario');
-            return;
-        }
-        
-        if (password.current && password.current!.value !== '111') {
-            alert('errou a senha');
-            return;
+        const data = {
+            "login": emailInput?.current?.value,
+            "password": password?.current?.value
         }
 
-        login(emailInput.current!.value, password.current!.value);
-        navigate('/home');
+        axios.post(`${API_BASE_URL}/api/auth/login`, data)
+        .then((response) => {
+            console.log(response);
+            if (response.status === 201) {
+                login(
+                    emailInput.current!.value,
+                    password.current!.value,
+                    response.data.acessToken,
+                    response.data.refreshToken
+                );
+                navigate('/home');
+            }
+        })
+        .catch((error) => {
+            if(error){
+                console.error(error);
+                alert(`Error Status ${error.response.status}`);
+            }
+        })
     }
     
     return(

@@ -24,6 +24,10 @@ html {
     text-align: start;
     overflow-y: auto;
 
+    & input{
+      border: 1px solid gray;
+    }
+
     & button{
       display: flex;
       align-items: center;

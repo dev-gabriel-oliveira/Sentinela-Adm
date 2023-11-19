@@ -1,0 +1,1 @@
+export const API_BASE_URL: string = 'https://sentinela-api-service.onrender.com';

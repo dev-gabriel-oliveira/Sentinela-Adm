@@ -4,17 +4,16 @@ import { columns } from './rowData';
 
 import './style.css';
 import { useEffect, useState } from 'react';
-import { ExpandedComponent } from './expandableRow';
 import { useAuth } from '../../contexts/useAuth';
 
-export default function Complaints() {
+export default function Organs() {
     const { getApi } = useAuth();
     const [data, setData] = useState();
 
     useEffect(() => {
         const api = getApi();
         
-        api?.get(`/api/complaint`)
+        api?.get(`/api/organ`)
         .then((response) => {
             console.log(response);
             setData(response.data);
@@ -26,7 +25,7 @@ export default function Complaints() {
 
     return(
         <>
-            <h1>Denúncias</h1>
+            <h1>Orgãos</h1>
 
             <hr />
 
@@ -42,8 +41,6 @@ export default function Complaints() {
                     className='border border-secondary-subtle rounded'
                     columns={columns}
                     data={data}
-                    expandableRows
-                    expandableRowsComponent={ExpandedComponent}
                     pagination
                 />
             ):(
