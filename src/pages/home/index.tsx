@@ -1,10 +1,8 @@
 import 'react';
-import { PieChart, Pie, BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 import './style.css';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/useAuth';
-import { Complaint } from '../complaints/rowData';
 
 export default function Home() {
   const { getApi } = useAuth();
