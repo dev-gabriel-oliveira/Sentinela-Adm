@@ -24,7 +24,6 @@ export default function Login() {
 
         axios.post(`${API_BASE_URL}/api/auth/login`, data)
         .then((response) => {
-            console.log(response);
             if (response.status === 201) {
                 login(
                     emailInput.current!.value,

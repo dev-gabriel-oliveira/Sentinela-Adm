@@ -14,22 +14,22 @@ export interface Complaint {
 export const columns = [
   {
     name: 'ID',
-    selector: (row: Complaint) => row.id,
+    selector: (row: Complaint) => row.id ? row.id : '###',
     sortable: true,
   },
   {
     name: 'Título',
-    selector: (row: Complaint) => row.title,
+    selector: (row: Complaint) => row.title ? row.title : '...',
     sortable: false,
   },
   {
     name: 'Data de Envio',
-    selector: (row: Complaint) => row.createdAt,
+    selector: (row: Complaint) => row.createdAt ? row.createdAt : '...',
     sortable: false,
   },
   {
     name: 'Status',
-    selector: (row: Complaint) => row.status,
+    selector: (row: Complaint) => row.status ? row.status : '...',
     sortable: false,
   }
 ];

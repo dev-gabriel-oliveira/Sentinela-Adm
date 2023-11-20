@@ -18,7 +18,6 @@ export const ExpandedComponent: React.FC<ExpanderComponentProps<Complaint>> = ({
 
             api?.patch(`/api/complaint/${data.id}`, statusData)
             .then((response) => {
-                console.log(response);
                 window.location.reload();
             })
             .catch((error) => {

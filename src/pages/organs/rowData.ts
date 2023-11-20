@@ -11,22 +11,22 @@ export interface RowData {
 export const columns = [
   {
     name: 'ID',
-    selector: (row: RowData) => row.id,
+    selector: (row: RowData) => row.id ? row.id : '###',
     sortable: true,
   },
   {
     name: 'Nome',
-    selector: (row: RowData) => row.name,
+    selector: (row: RowData) => row.name ? row.name : '...',
     sortable: false,
   },
   {
     name: 'Email',
-    selector: (row: RowData) => row.email,
+    selector: (row: RowData) => row.email ? row.email : '...',
     sortable: false,
   },
   {
     name: 'Denuncias',
-    selector: (row: RowData) => row.complaints,
+    selector: (row: RowData) => row.complaints ? row.complaints : '...',
     sortable: false,
   }
 ];

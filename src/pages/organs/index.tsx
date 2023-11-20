@@ -15,7 +15,6 @@ export default function Organs() {
         
         api?.get(`/api/organ`)
         .then((response) => {
-            console.log(response);
             setData(response.data);
         })
         .catch((error) => {

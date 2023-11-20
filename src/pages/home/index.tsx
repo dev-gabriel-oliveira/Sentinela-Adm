@@ -16,26 +16,24 @@ export default function Home() {
   const getComplaintsData = () => {
     api?.get(`/api/complaint`)
     .then((response) => {
-        console.log(response);
+      setComplaintsData(response.data);
 
-        setComplaintsData(response.data);
+      const statusTotals = response.data.reduce((totals: any, item: any) => {
+        const { status } = item;
+        // Inicializa o total para o status se ainda não existir
+        totals[status] = (totals[status] || 0) + 1;
+        return totals;
+      }, {});
+      
+      // Cria um array com os totais formatados
+      const result = {
+        enviado: statusTotals['enviado'] || 0,
+        em_analise: statusTotals['em analise'] || 0,
+        negado: statusTotals['negado'] || 0,
+        resolvido: statusTotals['resolvido'] || 0
+      };
 
-        const statusTotals = response.data.reduce((totals: any, item: any) => {
-          const { status } = item;
-          // Inicializa o total para o status se ainda não existir
-          totals[status] = (totals[status] || 0) + 1;
-          return totals;
-        }, {});
-        
-        // Cria um array com os totais formatados
-        const result = {
-          enviado: statusTotals['enviado'] || 0,
-          em_analise: statusTotals['em analise'] || 0,
-          negado: statusTotals['negado'] || 0,
-          resolvido: statusTotals['resolvido'] || 0
-        };
-
-        setComplaintsPartials(result);
+      setComplaintsPartials(result);
     })
     .catch((error) => {
         console.error(error);
@@ -45,11 +43,10 @@ export default function Home() {
   const getOrgansData = () => {
     api?.get(`/api/organ`)
     .then((response) => {
-        console.log(response);
-        setOrgansData(response.data);
+      setOrgansData(response.data);
     })
     .catch((error) => {
-        console.error(error);
+      console.error(error);
     })
   }
 
@@ -57,12 +54,6 @@ export default function Home() {
     getComplaintsData();
     getOrgansData()
   },[])
-
-  useEffect(() => {
-
-    complaintsPartials ? console.log(complaintsPartials) : null;
-    
-  })
 
   return(
     <>

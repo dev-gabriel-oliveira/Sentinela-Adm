@@ -16,7 +16,6 @@ export default function Complaints() {
         
         api?.get(`/api/complaint`)
         .then((response) => {
-            console.log(response);
             setData(response.data);
         })
         .catch((error) => {

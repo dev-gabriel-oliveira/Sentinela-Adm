@@ -64,8 +64,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     const logout = () => {
-        console.log("teste");
-        
         setUser(null);
         localStorage.setItem("user", "");
         return;
