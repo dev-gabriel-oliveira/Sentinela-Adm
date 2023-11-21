@@ -37,7 +37,7 @@ export default function Organs() {
 
             {data ? (
                 <DataTable
-                    className='border border-secondary-subtle rounded'
+                    className='border border-bottom-0'
                     columns={columns}
                     data={data}
                     pagination

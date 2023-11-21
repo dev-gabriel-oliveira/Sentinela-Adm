@@ -27,10 +27,10 @@ export default function Home() {
       
       // Cria um array com os totais formatados
       const result = {
-        enviado: statusTotals['enviado'] || 0,
+        enviado: statusTotals['iniciada'] || 0,
         em_analise: statusTotals['em analise'] || 0,
-        negado: statusTotals['negado'] || 0,
-        resolvido: statusTotals['resolvido'] || 0
+        negado: statusTotals['negada'] || 0,
+        resolvido: statusTotals['resolvida'] || 0
       };
 
       setComplaintsPartials(result);
@@ -94,7 +94,7 @@ export default function Home() {
           <hr />
 
           <div className="d-flex justify-content-between align-items-center border border-secondary rounded my-3 p-2">
-            <h4>Enviados</h4>
+            <h4>Iniciadas</h4>
             {complaintsPartials ? (
               <h2 className='text-success ms-5'>{complaintsPartials?.enviado}</h2>
             ):(
@@ -121,7 +121,7 @@ export default function Home() {
           <hr />
 
           <div className="d-flex justify-content-between align-items-center border border-secondary rounded my-3 p-2">
-            <h4>Negados</h4>
+            <h4>Negadas</h4>
             {complaintsPartials ? (
               <h2 className='text-success ms-5'>{complaintsPartials?.negado}</h2>
             ):(
@@ -132,7 +132,7 @@ export default function Home() {
           </div>
 
           <div className="d-flex justify-content-between align-items-center border border-secondary rounded my-3 p-2">
-            <h4>Resolvidos</h4>
+            <h4>Resolvidas</h4>
             {complaintsPartials ? (
               <h2 className='text-success ms-5'>{complaintsPartials?.resolvido}</h2>
             ):(

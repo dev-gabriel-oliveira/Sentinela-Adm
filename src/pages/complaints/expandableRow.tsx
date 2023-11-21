@@ -3,10 +3,12 @@ import { Complaint } from "./rowData";
 import { useRef } from 'react';
 import { useAuth } from '../../contexts/useAuth';
 
+import './style.css';
+
 export const ExpandedComponent: React.FC<ExpanderComponentProps<Complaint>> = ({ data }) => {
     const { getApi, logout } = useAuth();
 
-    const statusInput = useRef<HTMLInputElement | null>(null);
+    const statusInput = useRef<HTMLSelectElement | null>(null);
 
     const changeStatus = async () => {
         if (window.confirm(`Deseja alterar o Status da Denúncia "${data.id}?"`)) {
@@ -31,7 +33,7 @@ export const ExpandedComponent: React.FC<ExpanderComponentProps<Complaint>> = ({
     }
 
     return (
-        <div className='d-flex justify-content-between align-items-center px-5 py-3'>
+        <div className='d-flex bg-light border-bottom justify-content-between align-items-center px-5 py-3'>
             <div>
                 <p><strong>ID:</strong> {data.id}</p>
                 <p><strong>Título:</strong> {data.title}</p>
@@ -40,7 +42,9 @@ export const ExpandedComponent: React.FC<ExpanderComponentProps<Complaint>> = ({
                 <p><strong>Longitude:</strong> {data.longitude}</p>
             </div>
 
-            <img className='img-fluid mx-5' src={data.image} alt="" height={'100%'} width={'100rem'}/>
+            <a className='complaint-img' href={data.image} target="_blank">
+                <img className='img-fluid' src={data.image} alt="" height={'100%'} width={'200rem'}/>
+            </a>
 
             <div style={{width:'300px'}}>
                 <p className="d-inline-flex gap-1">
@@ -51,7 +55,13 @@ export const ExpandedComponent: React.FC<ExpanderComponentProps<Complaint>> = ({
                 </p>
                 <div className="collapse" id="collapseExample">
                     <div className="d-inline-block card card-body">
-                        <input className='my-2' type="text" ref={statusInput} />
+                        <select ref={statusInput}>
+                            <option value="iniciada">Iniciada</option>
+                            <option value="em analise">Em Análise</option>
+                            <option value="negada">Negado</option>
+                            <option value="resolvida">Resolvido</option>
+                        </select>
+                        <hr />
                         <button className='btn btn-success fs-6' onClick={() => {changeStatus()}}>Atualizar</button>
                     </div>
                 </div>

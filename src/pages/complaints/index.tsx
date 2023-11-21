@@ -9,11 +9,11 @@ import { useAuth } from '../../contexts/useAuth';
 
 export default function Complaints() {
     const { getApi } = useAuth();
+    const api = getApi();
+
     const [data, setData] = useState();
 
-    useEffect(() => {
-        const api = getApi();
-        
+    const getComplaints = () => {
         api?.get(`/api/complaint`)
         .then((response) => {
             setData(response.data);
@@ -21,7 +21,21 @@ export default function Complaints() {
         .catch((error) => {
             console.error(error);
         })
-    },[])
+    };
+
+    useEffect(() => {
+        getComplaints();
+    });
+
+    useEffect(() => {
+        // Código para executar a cada 5 segundos
+        const interval = setInterval(() => {
+            getComplaints();
+        }, 5000);
+     
+        // Limpeza do intervalo quando o componente é desmontado
+        return () => clearInterval(interval);
+    }, []);
 
     return(
         <>
@@ -38,7 +52,7 @@ export default function Complaints() {
 
             {data ? (
                 <DataTable
-                    className='border border-secondary-subtle rounded'
+                    className='border border-bottom-0'
                     columns={columns}
                     data={data}
                     expandableRows

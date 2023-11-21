@@ -1,0 +1,8 @@
+.complaint-img{
+    filter: brightness(60%);
+    transition: 0.5s;
+
+    &:hover{
+        filter: brightness(110%);
+    }
+}

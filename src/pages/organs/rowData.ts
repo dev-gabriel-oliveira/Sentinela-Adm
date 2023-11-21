@@ -25,7 +25,7 @@ export const columns = [
     sortable: false,
   },
   {
-    name: 'Denuncias',
+    name: 'Data de Inserção',
     selector: (row: RowData) => row.complaints ? row.complaints : '...',
     sortable: false,
   }
